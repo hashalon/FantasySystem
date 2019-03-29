@@ -7,6 +7,7 @@ import java.lang.Integer.max
 const val BG_SIZE = 32
 
 // pass references to the tile sheet and the four background paletteSheet
+@ExperimentalUnsignedTypes
 class Background (
     private val tileSheet    : Array<Tile>,
     private val paletteSheet : Array<Palette>

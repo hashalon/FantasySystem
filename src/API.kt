@@ -6,6 +6,7 @@ import memory.*
 *
 * */
 
+@ExperimentalUnsignedTypes
 class API (val display: Display) {
 
     /* SPRITE */

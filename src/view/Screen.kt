@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage
 import javax.swing.JPanel
 import kotlin.math.min
 
+@ExperimentalUnsignedTypes
 class Screen(val display: Display) : JPanel(true) {
 
     init {
@@ -27,7 +28,6 @@ class Screen(val display: Display) : JPanel(true) {
         // update the data once after having initialized everything
         update()
         repaint()
-        print(display)
     }
 
 
@@ -39,15 +39,10 @@ class Screen(val display: Display) : JPanel(true) {
         // find the top left corner of the screen
         val pixSize = pixelSize
         val dspSize = pixSize * DISPLAY_SIZE
-        val dim     = size
-
-        // start position for sprites
-        val startX = (dim.width  - dspSize) / 2
-        val startY = (dim.height - dspSize) / 2
 
         // start position for backgrounds
-        val bgStartX = startX - display.scrollX * pixSize
-        val bgStartY = startY - display.scrollY * pixSize
+        val bgStartX = -display.scrollX * pixSize
+        val bgStartY = -display.scrollY * pixSize
 
         // draw each background twice in a chequer board pattern
         g.drawImage(bgBuffer1, bgStartX + 0      , bgStartY + 0      , dspSize, dspSize, null)
@@ -64,8 +59,8 @@ class Screen(val display: Display) : JPanel(true) {
             if (!spr.visible) continue
 
             // place the sprite at the right location
-            var x = startX + spr.x * pixSize
-            var y = startY + spr.y * pixSize
+            var x = spr.x * pixSize
+            var y = spr.y * pixSize
             var w = tilSize
             var h = tilSize
 
@@ -147,4 +142,11 @@ class Screen(val display: Display) : JPanel(true) {
         return min(dim.width, dim.height) / DISPLAY_SIZE
     }
 
+    // adapt the size of the screen to surface available in the window
+    fun changeSize (width : Int, height : Int) {
+        val scale = min(width, height) / DISPLAY_SIZE
+        val dim   = Dimension(DISPLAY_SIZE * scale, DISPLAY_SIZE * scale)
+        minimumSize   = dim
+        preferredSize = dim
+    }
 }

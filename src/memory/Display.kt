@@ -26,6 +26,7 @@ const val MASK_512  = 0b1111_1111_1  //
 const val MASK_1024 = 0b1111_1111_11 //
 
 // while building the display, fill it with default values
+@ExperimentalUnsignedTypes
 class Display {
 
     // color space referenced by palettes
@@ -65,7 +66,7 @@ class Display {
     }
 
     // we have two different palettes for sprites and backgrounds
-    val palettes = Array<Palette>(NB_PAL) {Palette(colorSpace)}
+    val palettes = Array<Palette>(NB_PAL) {i -> Palette(colorSpace, i)}
 
     // declare background data
     var background1 = Background(backgroundSheet, palettes)
@@ -76,7 +77,7 @@ class Display {
     var scrollY : Int = 0
 
     // declare sprites
-    val sprites = Array<Sprite>(NB_SPR) {Sprite(foregroundSheet, palettes)}
+    val sprites = Array<Sprite>(NB_SPR) {i -> Sprite(foregroundSheet, palettes, i)}
 
     // tells when the backgrounds have been swapped
     var bgSwapped : Boolean = false
@@ -139,7 +140,17 @@ class Display {
             strB.append('\n')
         }
 
-        // TODO: background, tiles, sprites...
+        strB.append("\nForeground spritesheet:\n")
+        for (tile in foregroundSheet) {
+            strB.append(tile)
+            strB.append('\n')
+        }
+
+        strB.append("\nBackground spritesheet:\n")
+        for (tile in backgroundSheet) {
+            strB.append(tile)
+            strB.append('\n')
+        }
 
         return strB.toString()
     }

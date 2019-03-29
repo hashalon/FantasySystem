@@ -1,8 +1,10 @@
 package memory
 
+@ExperimentalUnsignedTypes
 class Sprite (
     private val tileSheet : Array<Tile>,
-    private val palettes  : Array<Palette>
+    private val palettes  : Array<Palette>,
+    index : Int
 ) {
 
     var redraw : Boolean = true
@@ -14,10 +16,10 @@ class Sprite (
     var x : Int = 0
     var y : Int = 0
 
-    private var indexTile      : Int     = 0
-    private var pointerTile    : Tile    = tileSheet[0]
-    private var indexPalette   : Int     = 0
-    private var pointerPalette : Palette = palettes [0]
+    private var indexTile      : Int     = index and MASK_64
+    private var pointerTile    : Tile    = tileSheet[index and MASK_64]
+    private var indexPalette   : Int     = index and MASK_8
+    private var pointerPalette : Palette = palettes [index and MASK_8]
 
     var flipHorizontal : Boolean = false
     var flipVertical   : Boolean = false

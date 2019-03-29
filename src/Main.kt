@@ -16,6 +16,7 @@ import javax.script.ScriptEngineManager
  *
  * */
 
+@ExperimentalUnsignedTypes
 fun main (args : Array<String>) {
 
     println("Running Fantasy")
@@ -27,30 +28,15 @@ fun main (args : Array<String>) {
     for (i in 0..5)
         (engine as Invocable).invokeFunction("test", "hello $i") */
 
-    //val window = Window()
+    val window = Window()
 
-    val tile = Tile()
-    tile.assign(0b0001_1011_0001_1011_0001_1011_0001_1011_0001_1011_0001_1011_0001_1011_0001_1011L, 0b0001_1011_0001_1011_0001_1011_0001_1011_0001_1011_0001_1011_0001_1011_0001_1011L)
+    val api = API(window.display)
 
-    // TODO: tile doesn't return the correct data for the specified index :(
-    println(tile[0])
-    println(tile[1])
-    println(tile[2])
-    println(tile[3])
+    for (i in 0..63) {
+        api.spr(i,i * 8, i, i, i)
+    }
 
-    println(tile[4])
-    println(tile[5])
-    println(tile[6])
-    println(tile[7])
-
-    println(tile[8])
-    println(tile[9])
-    println(tile[10])
-    println(tile[11])
-
-    println(tile[12])
-    println(tile[13])
-    println(tile[14])
-    println(tile[15])
+    window.screen.update()
+    window.screen.repaint()
 
 }

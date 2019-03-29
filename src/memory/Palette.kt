@@ -6,13 +6,14 @@ import java.lang.StringBuilder
 const val PAL_NB_COL = 4
 
 class Palette (
-    private val colorSpace: IntArray
+    private val colorSpace: IntArray,
+    index : Int
 ) {
 
     var redraw : Boolean = true
 
-    private val indexes = IntArray (PAL_NB_COL) {i -> i}
-    private val colors  = IntArray (PAL_NB_COL) {i -> colorSpace[i]}
+    private val indexes = IntArray (PAL_NB_COL) {i -> (index + i) and MASK_64}
+    private val colors  = IntArray (PAL_NB_COL) {i -> colorSpace[(index + i) and MASK_64]}
 
     // get palette color
     operator fun get(index : Int) : Int = colors[index and MASK_4]
